@@ -24,17 +24,39 @@ function refuel()
     end
 end
 
+-- Break actually breaks 6 blocks for some reason
+function fixFuckup()
+    turtle.forward()
+    turtle.suckDown()
+    turtle.back()
+    for x = 1,2 do
+        turtle.back()
+        turtle.suckDown()
+        if canPlace() then
+            turtle.placeDown()
+        end
+    end
+    turtle.forward()
+    turtle.forward()
+end
+
 -- Farms a straight line
 function farmLine()
     refuel()
     for i = 1, 13 do
+        hasFarmed = false
         turtle.forward()
         turtle.select(2)
         if isGrown() then
             turtle.digDown()
+            hasFarmed = true
         end
+        turtle.suckDown()
         if canPlace() then
             turtle.placeDown()
+        end
+        if hasFarmed then
+            fixFuckup()
         end
     end
     -- Exit to wood

@@ -22,15 +22,16 @@ end
 
 function strip()
   refuel()
+  if hasToEmpty() then
+    print("> Depositing Items...")
+	  empty()
+  end
+  turtle.select(4)
   x = 0
   for i = 1, 16 do
     mine()
 	x = x + 1
 	torch()
-  end
-  if hasToEmpty() then
-    print("> Depositing Items...")
-	empty()
   end
 end
 
@@ -71,10 +72,14 @@ function empty()
 end
 
 function hasToEmpty()
-  turtle.select(16)
-  if turtle.getItemSpace() < 48 then
-    return true
+  isFull = true
+  for slot = 4,16 do
+    turtle.select(slot)
+    if turtle.getItemCount() == 0 then
+      isFull = false
+    end
   end
+  return isFull
 end
 
 for i = 1, 8 do
