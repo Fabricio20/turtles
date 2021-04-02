@@ -31,18 +31,53 @@ function swapItem()
     turtle.select(3)
 end
 
+-- Looks around for stray items
+function suckItems()
+    turtle.select(3)
+    -- Suck from front
+    turtle.forward()
+    turtle.suckDown()
+    turtle.back()
+
+    -- Suck down
+    turtle.suckDown()
+
+    -- Suck from back
+    turtle.back()
+    turtle.suckDown()
+    turtle.forward()
+
+    -- Suck from left
+    turtle.turnLeft()
+    turtle.forward()
+    turtle.suckDown()
+    turtle.turnRight()
+    turtle.turnRight()
+    turtle.forward()
+    turtle.turnLeft()
+
+    -- Suck from right
+    turtle.turnRight()
+    turtle.forward()
+    turtle.suckDown()
+    turtle.turnLeft()
+    turtle.turnLeft()
+    turtle.forward()
+    turtle.turnRight()
+end
+
 -- Farms a straight line
 function farmLine()
-    refuel()
     for i = 1, 13 do
+        refuel()
         turtle.forward()
         if isGrown() then
             swapItem()
             turtle.digDown()
             swapItem()
+            suckItems()
         end
         turtle.select(3)
-        turtle.suckDown()
         if canPlace() then
             turtle.placeDown()
         end
