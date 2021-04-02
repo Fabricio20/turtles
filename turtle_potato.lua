@@ -1,5 +1,6 @@
 -- 1 = Fuel
--- 2 = Seed
+-- 2 = Hand Item
+-- 3 = Seed
 
 function isGrown()
     success, data = turtle.inspectDown()
@@ -24,39 +25,26 @@ function refuel()
     end
 end
 
--- Break actually breaks 6 blocks for some reason
-function fixFuckup()
-    turtle.forward()
-    turtle.suckDown()
-    turtle.back()
-    for x = 1,2 do
-        turtle.back()
-        turtle.suckDown()
-        if canPlace() then
-            turtle.placeDown()
-        end
-    end
-    turtle.forward()
-    turtle.forward()
+function swapItem()
+    turtle.select(2)
+    turtle.equipRight()
+    turtle.select(3)
 end
 
 -- Farms a straight line
 function farmLine()
     refuel()
     for i = 1, 13 do
-        hasFarmed = false
         turtle.forward()
-        turtle.select(2)
         if isGrown() then
+            swapItem()
             turtle.digDown()
-            hasFarmed = true
+            swapItem()
         end
+        turtle.select(3)
         turtle.suckDown()
         if canPlace() then
             turtle.placeDown()
-        end
-        if hasFarmed then
-            fixFuckup()
         end
     end
     -- Exit to wood
@@ -90,7 +78,7 @@ end
 
 -- Empties the inventory
 function emptyInventory()
-    for slot = 2, 16 do
+    for slot = 3, 16 do
         turtle.select(slot)
         turtle.dropDown()
     end
