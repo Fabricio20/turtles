@@ -54,11 +54,19 @@ function torch()
 end
 
 function empty()
+  blocked = turtle.detectDown()
+  if blocked then
+    turtle.back()
+  end
   turtle.select(2)
   turtle.placeDown()
   for slot = 4, 16 do
     turtle.select(slot)
     turtle.dropDown()
+  end
+  turtle.select(4)
+  if blocked then
+    turtle.forward()
   end
 end
 
