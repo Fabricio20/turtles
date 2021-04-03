@@ -31,41 +31,6 @@ function swapItem()
     turtle.select(3)
 end
 
--- Looks around for stray items
-function suckItems()
-    turtle.select(3)
-    -- Suck from front
-    turtle.forward()
-    turtle.suckDown()
-    turtle.back()
-
-    -- Suck down
-    turtle.suckDown()
-
-    -- Suck from back
-    turtle.back()
-    turtle.suckDown()
-    turtle.forward()
-
-    -- Suck from left
-    turtle.turnLeft()
-    turtle.forward()
-    turtle.suckDown()
-    turtle.turnRight()
-    turtle.turnRight()
-    turtle.forward()
-    turtle.turnLeft()
-
-    -- Suck from right
-    turtle.turnRight()
-    turtle.forward()
-    turtle.suckDown()
-    turtle.turnLeft()
-    turtle.turnLeft()
-    turtle.forward()
-    turtle.turnRight()
-end
-
 -- Farms a straight line
 function farmLine()
     for i = 1, 13 do
@@ -75,7 +40,6 @@ function farmLine()
             swapItem()
             turtle.digDown()
             swapItem()
-            suckItems()
         end
         turtle.select(3)
         if canPlace() then
@@ -115,7 +79,14 @@ end
 function emptyInventory()
     for slot = 3, 16 do
         turtle.select(slot)
-        turtle.dropDown()
+        if slot == 3 then
+            cnt = turtle.getItemCount()
+            if cnt > 16 then
+                turtle.dropDown(cnt - 16)
+            end
+        else
+            turtle.dropDown()
+        end
     end
 end
 
@@ -123,12 +94,22 @@ end
 function returnHome()
     refuel()
     turtle.turnLeft()
-    for i = 1, 9 do
+    for i = 1, 4 do
         turtle.forward()
     end
-    turtle.down()
+    turtle.turnLeft()
+    for i = 1, 7 do
+        turtle.forward()
+    end
+    turtle.suckDown()
+    for i = 1, 7 do
+        turtle.back()
+    end
+    turtle.turnRight()
+    for i = 1, 5 do
+        turtle.forward()
+    end
     emptyInventory()
-    turtle.up()
 end
 
 -- Leave chest, prepare to move
