@@ -165,6 +165,14 @@ function empty()
     end
 end
 
+function getSaplings()
+    local amount = turtle.getItemSpace(2)
+    if amount > 0 then
+        turtle.select(2)
+        turtle.suckDown(amount)
+    end
+end
+
 while true do
     -- start working
     refuel()
@@ -229,8 +237,7 @@ while true do
     forward(2)
 
     -- getting sapling from barrel
-    turtle.select(2)
-    turtle.suckDown()
+    getSaplings()
     forward(4)
 
     -- went around
